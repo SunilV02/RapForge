@@ -24,6 +24,7 @@
   "jest": {
     "testEnvironment": "node",
     "testTimeout": 30000,
+    "testMatch": ["**/test/**/*.test.mjs"],
     "extensionsToTreatAsEsm": [".ts"],
     "transformIgnorePatterns": [
       "node_modules/(?!(@sap/cds|@cap-js)/)"
