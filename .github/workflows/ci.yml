@@ -1,0 +1,69 @@
+name: RapForge CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run CDS build check
+        run: npx cds compile srv/rap-battle-service.cds --to json > /dev/null
+
+      - name: Run tests
+        run: npm test
+
+  build-mta:
+    name: MTA Build (BTP deployment package)
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install MBT
+        run: npm install -g mbt
+
+      - name: Install CAP CLI
+        run: npm install -g @sap/cds-dk
+
+      - name: Add MTA config
+        run: cds add mta
+
+      - name: Build MTA archive
+        run: mbt build --mtar RapForge.mtar
+
+      - name: Upload MTA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RapForge-mtar
+          path: mta_archives/RapForge.mtar
+          retention-days: 7
