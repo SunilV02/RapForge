@@ -23,7 +23,11 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "testTimeout": 30000
+    "testTimeout": 30000,
+    "extensionsToTreatAsEsm": [".ts"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@sap/cds|@cap-js)/)"
+    ]
   },
   "private": true,
   "sapux": [

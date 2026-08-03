@@ -4,21 +4,18 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Boot real in-memory CAP server with mocked admin user
-const test = cds.test(join(__dirname, '..'));
-test.defaults.auth = { username: 'admin', password: 'admin' };
+const t = cds.test(join(__dirname, '..'));
+t.defaults.auth = { username: 'admin', password: 'admin' };
 
 describe('RapBattleService', () => {
 
     let GET, POST;
 
     beforeAll(async () => {
-        await test.server;
-        GET  = test.GET;
-        POST = test.POST;
+        await t.server;
+        GET  = t.GET;
+        POST = t.POST;
     });
-
-    // ── Artists ───────────────────────────────────────────────────────────────
 
     describe('Artists', () => {
 
@@ -48,8 +45,6 @@ describe('RapBattleService', () => {
         });
     });
 
-    // ── Battles ───────────────────────────────────────────────────────────────
-
     describe('Battles', () => {
 
         it('GET /Battles returns seeded battles', async () => {
@@ -73,8 +68,6 @@ describe('RapBattleService', () => {
             expect(data.title).toBe('Test Battle 2026');
         });
     });
-
-    // ── Votes ─────────────────────────────────────────────────────────────────
 
     describe('Votes', () => {
 
@@ -111,7 +104,6 @@ describe('RapBattleService', () => {
                 voter: 'jest-voter-dup',
                 comment: 'First vote'
             });
-
             await expect(
                 POST('/api/rap-battle/Votes', {
                     battle_ID: battleId,
