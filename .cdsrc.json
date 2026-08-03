@@ -1,0 +1,21 @@
+{
+  "requires": {
+    "auth": {
+      "kind": "mocked",
+      "users": {
+        "admin": {
+          "password": "admin",
+          "roles": ["Admin", "Voter", "Viewer"]
+        },
+        "voter": {
+          "password": "voter",
+          "roles": ["Voter", "Viewer"]
+        },
+        "viewer": {
+          "password": "viewer",
+          "roles": ["Viewer"]
+        }
+      }
+    }
+  }
+}

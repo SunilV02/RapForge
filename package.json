@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit"
   },
   "jest": {
     "testEnvironment": "node",
@@ -31,8 +31,15 @@
   ],
   "cds": {
     "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": { "url": ":memory:" }
+      },
       "[production]": {
-        "auth": "xsuaa"
+        "auth": "xsuaa",
+        "db": {
+          "kind": "hana"
+        }
       }
     }
   }

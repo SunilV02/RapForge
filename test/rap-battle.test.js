@@ -4,15 +4,16 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// cds.test() boots a real in-memory CAP server — all tests share it
+// Boot real in-memory CAP server with mocked admin user
 const test = cds.test(join(__dirname, '..'));
+test.defaults.auth = { username: 'admin', password: 'admin' };
 
 describe('RapBattleService', () => {
 
     let GET, POST;
 
     beforeAll(async () => {
-        await test.server; // wait for server to be ready
+        await test.server;
         GET  = test.GET;
         POST = test.POST;
     });
@@ -82,11 +83,9 @@ describe('RapBattleService', () => {
         beforeAll(async () => {
             const { data: battles } = await GET('/api/rap-battle/Battles');
             const { data: artists } = await GET('/api/rap-battle/Artists');
-            // pick the 'ongoing' battle and first artist
             battleId = battles.value.find(b => b.status === 'ongoing')?.ID ?? battles.value[0].ID;
             artistId = artists.value[0].ID;
 
-            // register artist as participant so vote handler can find them
             await POST('/api/rap-battle/BattleParticipants', {
                 battle_ID: battleId,
                 artist_ID: artistId,
