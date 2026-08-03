@@ -67,3 +67,25 @@ jobs:
           name: RapForge-mtar
           path: mta_archives/RapForge.mtar
           retention-days: 7
+
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: rapforge:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
