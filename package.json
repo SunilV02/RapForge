@@ -2,12 +2,14 @@
   "name": "rap-battle-app",
   "version": "1.0.0",
   "dependencies": {
+    "@cap-js/hana": "^3",
     "@sap/cds": "^10",
     "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/cds-test": "^1.0.1",
     "@cap-js/sqlite": "^3",
+    "@sap/cds-dk": "^10",
     "@types/jest": "^30.0.0",
     "@types/node": "^26.1.2",
     "jest": "^30.4.2",
