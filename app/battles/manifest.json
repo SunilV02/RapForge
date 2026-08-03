@@ -1,0 +1,91 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "rap.battle.battles",
+    "type": "application",
+    "title": "Rap Battles",
+    "description": "Browse and manage rap battles",
+    "applicationVersion": { "version": "1.0.0" },
+    "dataSources": {
+      "mainService": {
+        "uri": "/api/rap-battle/",
+        "type": "OData",
+        "settings": { "odataVersion": "4.0" }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "fullWidth": true
+  },
+  "sap.ui5": {
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "models": {
+      "": {
+        "dataSource": "mainService",
+        "settings": { "synchronizationMode": "None", "operationMode": "Server" }
+      },
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": { "bundleName": "rap.battle.battles.i18n.i18n" }
+      }
+    },
+    "routing": {
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "BattlesList",
+          "target": "BattlesList"
+        },
+        {
+          "pattern": "Battles({key}):?query:",
+          "name": "BattlesObjectPage",
+          "target": "BattlesObjectPage"
+        }
+      ],
+      "targets": {
+        "BattlesList": {
+          "type": "Component",
+          "id": "BattlesList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "entitySet": "Battles",
+              "variantManagement": "Page",
+              "initialLoad": true,
+              "navigationSettings": {
+                "create": {},
+                "edit": {}
+              }
+            }
+          }
+        },
+        "BattlesObjectPage": {
+          "type": "Component",
+          "id": "BattlesObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "entitySet": "Battles",
+              "navigationSettings": {
+                "create": {},
+                "edit": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "xsappname": "rap-battle-app",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Viewer",
+      "description": "View battles and artists"
+    },
+    {
+      "name": "$XSAPPNAME.Voter",
+      "description": "Cast votes in battles"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Create and manage battles and artists"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Viewer",
+      "description": "Read-only access to battles and artists",
+      "scope-references": ["$XSAPPNAME.Viewer"]
+    },
+    {
+      "name": "Voter",
+      "description": "Can view and cast votes",
+      "scope-references": ["$XSAPPNAME.Viewer", "$XSAPPNAME.Voter"]
+    },
+    {
+      "name": "Admin",
+      "description": "Full access — create, edit, delete",
+      "scope-references": ["$XSAPPNAME.Viewer", "$XSAPPNAME.Voter", "$XSAPPNAME.Admin"]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "RapBattle_Viewer",
+      "description": "Rap Battle Viewers",
+      "role-template-references": ["$XSAPPNAME.Viewer"]
+    },
+    {
+      "name": "RapBattle_Voter",
+      "description": "Rap Battle Voters",
+      "role-template-references": ["$XSAPPNAME.Voter"]
+    },
+    {
+      "name": "RapBattle_Admin",
+      "description": "Rap Battle Administrators",
+      "role-template-references": ["$XSAPPNAME.Admin"]
+    }
+  ]
+}
